@@ -22,9 +22,17 @@ def get_rates(currency, today):
         "quotes": "CNY",
     })
 
-    url = "https://api.frankfurter.dev/v2/rates?" + params
-    with urllib.request.urlopen(url, timeout=30) as response:
+    url = "https://api.frankfurter.dev/v2/rates?" + params    
+    request = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "application/json"
+        }
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
         data = json.load(response)
+
 
     # 排除周末日期，避免把周末延用值当成新汇率
     by_date = {
